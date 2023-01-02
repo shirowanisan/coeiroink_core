@@ -105,4 +105,3 @@ class ModelManager:
             speed_scale=speed_scale,
             use_gpu=use_gpu
         )
-

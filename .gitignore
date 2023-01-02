@@ -4,3 +4,5 @@ DS_Store
 speaker_info
 output
 __pycache__
+*.egg-info
+build

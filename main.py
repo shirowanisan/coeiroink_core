@@ -2,7 +2,7 @@ import os
 
 import soundfile as sf
 
-from coeiroink_manager import ModelManager
+from coeirocore.coeiroink_manager import ModelManager
 
 if __name__ == '__main__':
     output_dir = 'output'
