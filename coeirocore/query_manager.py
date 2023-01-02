@@ -1,7 +1,7 @@
 from typing import List
 
 
-def query2tokens_prosody(query, text: str) -> List[str]:
+def query2tokens_prosody(query, text: str = '') -> List[str]:
     tokens = ['^']
     for i, accent_phrase in enumerate(query.accent_phrases):
         up_token_flag = False
