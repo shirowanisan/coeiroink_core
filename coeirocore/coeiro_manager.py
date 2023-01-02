@@ -146,7 +146,7 @@ class AudioManager:
         if self.previous_style_id != style_id or self.previous_speed_scale != speed_scale:
             self.current_speaker_model = EspnetModel.get_character_model(
                 style_id=style_id,
-                speed_scale=speed_scale,
+                speed_scale=1/speed_scale,
                 use_gpu=self.use_gpu
             )
             self.previous_style_id = style_id

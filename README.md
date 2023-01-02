@@ -9,6 +9,10 @@ pip install -r requirements-coeiroink.txt
 pip install -r requirements-voicevox.txt
 ```
 
+```bash
+pip install git+ssh://git@github.com/shirowanisan/coeiroink_core.git
+```
+
 ## Build
 
 version: c-1.7.0+v-1.14.0
