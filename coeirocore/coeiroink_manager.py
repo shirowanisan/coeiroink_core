@@ -7,6 +7,8 @@ import librosa
 import numpy as np
 import pyworld as pw
 import resampy
+import sklearn.neighbors._partition_nodes
+import sklearn.utils._typedefs
 import torch
 import yaml
 from espnet2.bin.tts_inference import Text2Speech
