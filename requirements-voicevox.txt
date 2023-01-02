@@ -1,2 +1,3 @@
 pyopenjtalk @ git+https://github.com/VOICEVOX/pyopenjtalk@f4ade29ef9a4f43d8605103cb5bacc29e0b2ccae
 numpy==1.20.0
+pyworld==0.3.0

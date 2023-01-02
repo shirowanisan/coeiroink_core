@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "coeirocore"
-version = "0.0.1"
+version = "1.0.0"
 
 [tool.setuptools.packages.find]
 include = ["coeirocore.*"]
