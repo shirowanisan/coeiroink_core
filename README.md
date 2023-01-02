@@ -9,5 +9,5 @@ Python 3.9.16
 pip install --upgrade pip setuptools wheel
 pip install --no-deps -r requirements-coeiroink-no-deps.txt
 pip install -r requirements-coeiroink.txt
-pip install -r requirements.txt
+pip install -r requirements-voicevox.txt
 ```
