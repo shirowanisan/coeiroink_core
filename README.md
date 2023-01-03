@@ -59,5 +59,7 @@ cp venv/Lib/site-packages/espnet/version.txt dist/run/espnet/
 mkdir dist/run/librosa/util/example_data
 cp venv/Lib/site-packages/librosa/util/example_data/registry.txt dist/run/librosa/util/example_data/
 cp venv/Lib/site-packages/librosa/util/example_data/index.json dist/run/librosa/util/example_data/
-cp default.csv dist/run/
+cp engine_manifest.json dist/run/
+cp -r engine_manifest_assets dist/run/
+cp -r spaker_info dist/run/
 ```
