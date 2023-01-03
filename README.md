@@ -19,7 +19,7 @@ version: c-1.7.0+v-1.14.0
 
 ```bash
 $ python --version 
-Python 3.9.16
+Python 3.9.12
 ```
 
 ### Mac
