@@ -25,12 +25,15 @@ Python 3.9.12
 ### Mac
 
 ```bash
+# coeiroinkcore
 pip install --upgrade pip setuptools wheel
 pip install --no-deps -r requirements-coeiroink-no-deps.txt
 pip install -r requirements-coeiroink.txt
-pip install -r requirements-dev.txt
-# if using gpu
-pip3 install torch==1.10.2+cu113 torchvision==0.11.3+cu113 torchaudio===0.10.2+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+pip install .
+# voicevox engine
+pip install -r requirements.txt
+# license
+pip install pip-licenses
 python generate_licenses.py > licenses.json
 pip install pyinstaller
 pyinstaller run.py
@@ -44,14 +47,22 @@ cp venv/Lib/site-packages/librosa/util/example_data/index.json dist/run/librosa/
 ### Windows
 
 ```bash
+# voicevox engine
 python -m venv venv
 .\venv\Scripts\activate
-pip list
+# coeiroinkcore
 pip install --upgrade pip setuptools wheel
 pip install --no-deps -r requirements-coeiroink-no-deps.txt
 pip install -r requirements-coeiroink.txt
-pip install -r requirements-dev.txt
+pip install .
+# voicevox engine
+pip install -r requirements.txt
+# if using gpu
+pip3 install torch==1.10.2+cu113 torchvision==0.11.3+cu113 torchaudio===0.10.2+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html
+# license
+pip install pip-licenses
 python generate_licenses.py > licenses.json
+# build
 pip install pyinstaller
 pyinstaller run.py
 mkdir dist/run/espnet
@@ -61,5 +72,5 @@ cp venv/Lib/site-packages/librosa/util/example_data/registry.txt dist/run/libros
 cp venv/Lib/site-packages/librosa/util/example_data/index.json dist/run/librosa/util/example_data/
 cp engine_manifest.json dist/run/
 cp -r engine_manifest_assets dist/run/
-cp -r spaker_info dist/run/
+cp -r speaker_info dist/run/
 ```
