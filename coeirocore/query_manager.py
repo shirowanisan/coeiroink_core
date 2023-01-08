@@ -1,7 +1,7 @@
 from typing import List
 
 
-def query2tokens_prosody(query, text: str = '') -> List[str]:
+def query2tokens_prosody(query) -> List[str]:
     tokens = ['^']
     for i, accent_phrase in enumerate(query.accent_phrases):
         up_token_flag = False
@@ -23,7 +23,7 @@ def query2tokens_prosody(query, text: str = '') -> List[str]:
             else:
                 tokens.append('#')
     try:
-        if query.accent_phrases[-1].is_interrogative or text[-1] in ['?', '？']:
+        if query.accent_phrases[-1].is_interrogative:
             tokens.append('?')
         else:
             tokens.append('$')
