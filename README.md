@@ -35,13 +35,16 @@ pip install -r requirements.txt
 # license
 pip install pip-licenses
 python generate_licenses.py > licenses.json
+# build
 pip install pyinstaller
 pyinstaller run.py
-mkdir dist/run/espnet
-cp venv/Lib/site-packages/espnet/version.txt dist/run/espnet/
-mkdir dist/run/librosa/util/example_data
-cp venv/Lib/site-packages/librosa/util/example_data/registry.txt dist/run/librosa/util/example_data/
-cp venv/Lib/site-packages/librosa/util/example_data/index.json dist/run/librosa/util/example_data/
+cp venv/lib/python3.9/site-packages/espnet/version.txt dist/run/espnet/
+mkdir -p dist/run/librosa/util/example_data
+cp venv/lib/python3.9/site-packages/librosa/util/example_data/registry.txt dist/run/librosa/util/example_data/
+cp venv/lib/python3.9/site-packages/librosa/util/example_data/index.json dist/run/librosa/util/example_data/
+cp engine_manifest.json dist/run/
+cp -r engine_manifest_assets dist/run/
+cp -r speaker_info dist/run/
 ```
 
 ### Windows
