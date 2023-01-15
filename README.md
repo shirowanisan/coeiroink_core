@@ -10,7 +10,7 @@ pip install -r requirements-voicevox.txt
 ```
 
 ```bash
-pip install git+ssh://git@github.com/shirowanisan/coeiroink_core.git
+pip install git+https://github.com/shirowanisan/coeiroink_core.git
 ```
 
 ## Build
