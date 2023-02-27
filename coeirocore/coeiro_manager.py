@@ -1,7 +1,9 @@
 import glob
 import json
+import logging
+from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Iterable, Union
+from typing import List, Iterable, Union, Dict
 
 import librosa
 import numpy as np
@@ -15,27 +17,52 @@ from espnet2.bin.tts_inference import Text2Speech
 from espnet2.text.token_id_converter import TokenIDConverter
 
 
-class MetaManager:
-    @staticmethod
-    def get_metas_dict() -> List[dict]:
-        speaker_paths: List[str] = sorted(glob.glob('./speaker_info/**/'))
+@dataclass
+class ModelPath:
+    model_path: Path
+    config_path: Path
 
-        speaker_infos = []
+
+class MetaManager:
+    def __init__(self):
+        self.speaker_infos: List[Dict] = []
+        self.id_model_map: Dict[int, ModelPath] = {}
+
+        speaker_paths: List[str] = sorted(glob.glob('./speaker_info/**/'))
+        uuid_list: List = []
         for speaker_path in speaker_paths:
             with open(speaker_path + 'metas.json', encoding='utf-8') as f:
                 meta = json.load(f)
-            styles = [{'name': s['styleName'], 'id': s['styleId']} for s in meta['styles']]
+            uuid = meta['speakerUuid']
+            if uuid in uuid_list:
+                raise Exception("SpeakerUuidの重複があります。")
+            uuid_list.append(uuid)
+
+            styles = []
+            for style in meta['styles']:
+                style_id = style['styleId']
+                styles.append({'name': style['styleName'], 'id': style_id})
+
+                if style_id in self.id_model_map.keys():
+                    logging.warning("Style ids are duplicated")
+                model_folder_path = f"{speaker_path}model/{style_id}/"
+                self.id_model_map[style_id] = ModelPath(
+                    model_path=Path(sorted(glob.glob(model_folder_path + '*.pth'))[0]),
+                    config_path=Path(model_folder_path + 'config.yaml')
+                )
+
             version = meta['version'] if 'version' in meta.keys() else '0.0.1'
             speaker_info = {
                 'name': meta['speakerName'],
-                'speaker_uuid': meta['speakerUuid'],
+                'speaker_uuid': uuid,
                 'styles': styles,
                 'version': version
             }
-            speaker_infos.append(speaker_info)
+            self.speaker_infos.append(speaker_info)
+        self.speaker_infos = sorted(self.speaker_infos, key=lambda x: x['styles'][0]['id'])
 
-        speaker_infos = sorted(speaker_infos, key=lambda x: x['styles'][0]['id'])
-        return speaker_infos
+    def get_metas_dict(self) -> List[dict]:
+        return self.speaker_infos
 
 
 class EspnetModel:
@@ -83,34 +110,6 @@ class EspnetModel:
         wav = wav.view(-1).cpu().numpy()
         return wav
 
-    @classmethod
-    def get_character_model(
-            cls,
-            style_id: int,
-            speed_scale: float = 1.0,
-            use_gpu: bool = False
-    ):
-        uuid = None
-        metas = MetaManager.get_metas_dict()
-        for meta in metas:
-            for style in meta['styles']:
-                if style_id == int(style['id']):
-                    uuid = meta['speaker_uuid']
-        if uuid is None:
-            raise Exception("Not Found Speaker Directory")
-
-        model_folder_path = f"./speaker_info/{uuid}/model/{style_id}/"
-
-        config_path = Path(model_folder_path + 'config.yaml')
-        model_path = Path(sorted(glob.glob(model_folder_path + '*.pth'))[0])
-
-        return EspnetModel(
-            config_path=config_path,
-            model_path=model_path,
-            speed_scale=speed_scale,
-            use_gpu=use_gpu
-        )
-
 
 class AudioManager:
     def __init__(
@@ -121,11 +120,13 @@ class AudioManager:
         self.fs = fs
         self.use_gpu = use_gpu
 
-        self.previous_style_id = MetaManager.get_metas_dict()[0]['styles'][0]['id']
+        self.meta_manager = MetaManager()
+        self.previous_style_id = self.meta_manager.get_metas_dict()[0]['styles'][0]['id']
         self.previous_speed_scale = 1.0
 
-        self.current_speaker_model: EspnetModel = EspnetModel.get_character_model(
-            style_id=self.previous_style_id,
+        self.current_speaker_model: EspnetModel = EspnetModel(
+            model_path=self.meta_manager.id_model_map[self.previous_style_id].model_path,
+            config_path=self.meta_manager.id_model_map[self.previous_style_id].config_path,
             speed_scale=self.previous_speed_scale,
             use_gpu=self.use_gpu
         )
@@ -144,8 +145,9 @@ class AudioManager:
     ):
         # speaker_load
         if self.previous_style_id != style_id or self.previous_speed_scale != speed_scale:
-            self.current_speaker_model = EspnetModel.get_character_model(
-                style_id=style_id,
+            self.current_speaker_model = EspnetModel(
+                model_path=self.meta_manager.id_model_map[style_id].model_path,
+                config_path=self.meta_manager.id_model_map[style_id].config_path,
                 speed_scale=1/speed_scale,
                 use_gpu=self.use_gpu
             )
