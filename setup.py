@@ -1,10 +1,11 @@
-import setuptools
+from setuptools import setup, find_packages
 
-setuptools.setup(
+setup(
     name='coeirocore',
     version='1.0.3',
     url="https://github.com/shirowanisan/coeiroink_core",
     author="shirowanisan",
     license="LGPL license",
-    py_modules=['coeirocore.*', 'coeirocore/coeiro_manager', 'coeirocore/query_manager']
+    packages=find_packages('src'),
+    package_dir={'': 'src'},
 )

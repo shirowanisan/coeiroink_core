@@ -14,6 +14,7 @@ import sklearn.utils._typedefs
 import torch
 import yaml
 from espnet2.bin.tts_inference import Text2Speech
+from espnet2.text.phoneme_tokenizer import pyopenjtalk_g2p_prosody
 from espnet2.text.token_id_converter import TokenIDConverter
 
 
@@ -93,6 +94,10 @@ class EspnetModel:
             unk_symbol="<unk>",
         )
 
+    @staticmethod
+    def text2tokens(text: str) -> List[str]:
+        return pyopenjtalk_g2p_prosody(text)
+
     def tokens2ids(
             self,
             tokens: Iterable[str]
@@ -106,7 +111,9 @@ class EspnetModel:
     ) -> np.ndarray:
         np.random.seed(seed)
         torch.manual_seed(seed)
-        wav = self.tts_model(text)["wav"]
+        output = self.tts_model(text)
+        print(output['duration'])
+        wav = output["wav"]
         wav = wav.view(-1).cpu().numpy()
         return wav
 
