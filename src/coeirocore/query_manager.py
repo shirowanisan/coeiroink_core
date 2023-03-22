@@ -1,6 +1,6 @@
 from typing import List
 
-from src.coeirocore.model import AudioQuery
+from coeirocore.model import AudioQuery
 
 
 def query2tokens_prosody(query: AudioQuery) -> List[str]:

@@ -112,7 +112,6 @@ class EspnetModel:
         np.random.seed(seed)
         torch.manual_seed(seed)
         output = self.tts_model(text)
-        print(output['duration'])
         wav = output["wav"]
         wav = wav.view(-1).cpu().numpy()
         return wav

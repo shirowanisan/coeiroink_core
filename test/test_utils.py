@@ -1,14 +1,19 @@
-import os
+import json
+from pathlib import Path
 
-import soundfile as sf
+from coeirocore.coeiro_manager import EspnetModel
+from coeirocore.model import AudioQuery
 
-from coeirocore.coeiro_manager import AudioManager, EspnetModel
+from coeirocore.query_manager import query2tokens_prosody
 
 
-def test_generate_wav():
-    output_dir = 'output'
-    os.makedirs(output_dir, exist_ok=True)
-    text = '今日はいい天気ですね'
-    tokens = EspnetModel.text2tokens(text)
-    wav = AudioManager().synthesis(tokens, style_id=0)
-    sf.write(f"{output_dir}/output.wav", wav, 44100, 'PCM_16')
+def test_query_to_model():
+    with open(Path(__file__).parent / 'resources/test_query.json') as f:
+        data = json.load(f)
+    query = AudioQuery.parse_obj(data)
+    tokens_from_query = query2tokens_prosody(query)
+    print('\n')
+    print(tokens_from_query)
+    tokens_from_text = EspnetModel.text2tokens('どういうわけか説明してみましょう')
+    print(tokens_from_text)
+    assert tokens_from_query == tokens_from_text

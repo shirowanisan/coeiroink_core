@@ -18,6 +18,7 @@ numpy==1.20.0
 packaging==21.3
 pooch==1.6.0
 pycparser==2.21
+pydantic==1.10.6
 pyopenjtalk @ git+https://github.com/VOICEVOX/pyopenjtalk@f4ade29ef9a4f43d8605103cb5bacc29e0b2ccae
 pyparsing==3.0.7
 pyworld==0.3.0
@@ -34,5 +35,5 @@ torch==1.10.2
 torch-complex==0.4.0
 tqdm==4.65.0
 typeguard==2.13.3
-typing_extensions==4.1.1
+typing_extensions==4.5.0
 urllib3==1.26.8
