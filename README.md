@@ -3,10 +3,10 @@
 ## Installation
 
 ```bash
-pip install --upgrade pip setuptools wheel
-pip install --no-deps -r requirements-coeiroink-no-deps.txt
-pip install -r requirements-coeiroink.txt
-pip install -r requirements-voicevox.txt
+pip install git+https://git@github.com/shirowanisan/espnet@espnet-0.10.3 --no-deps
+pip install -r requirements.txt --no-deps
+# dev
+pip install -r requirements-dev.txt
 ```
 
 ```bash
