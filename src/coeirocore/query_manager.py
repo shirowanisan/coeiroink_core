@@ -1,7 +1,9 @@
 from typing import List
 
+from coeirocore.model import AudioQuery
 
-def query2tokens_prosody(query) -> List[str]:
+
+def query2tokens_prosody(query: AudioQuery) -> List[str]:
     tokens = ['^']
     for i, accent_phrase in enumerate(query.accent_phrases):
         up_token_flag = False

@@ -5,6 +5,7 @@ cffi==1.15.0
 charset-normalizer==2.0.12
 Cython==0.29.28
 decorator==5.1.1
+espnet===0.10.3-modified-by-shirowanisan
 h5py==3.6.0
 humanfriendly==10.0
 idna==3.3
@@ -17,7 +18,10 @@ numpy==1.20.0
 packaging==21.3
 pooch==1.6.0
 pycparser==2.21
+pydantic==1.10.6
+pyopenjtalk @ git+https://github.com/VOICEVOX/pyopenjtalk@f4ade29ef9a4f43d8605103cb5bacc29e0b2ccae
 pyparsing==3.0.7
+pyworld==0.3.0
 PyYAML==6.0
 requests==2.27.1
 resampy==0.2.2
@@ -29,6 +33,7 @@ SoundFile==0.10.3.post1
 threadpoolctl==3.1.0
 torch==1.10.2
 torch-complex==0.4.0
+tqdm==4.65.0
 typeguard==2.13.3
-typing_extensions==4.1.1
+typing_extensions==4.5.0
 urllib3==1.26.8
